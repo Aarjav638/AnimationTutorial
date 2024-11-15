@@ -1,118 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import MagneticCircle from './animations/MagneticCircle';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import MagicList from './animations/MagicList/MagicList';
+import { Button, Dimensions, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import ThemeSwitch from './animations/ThemeSwitch';
+import PinGesture from './animations/PinGesture';
+import DoubleTap from './animations/DoubleTap';
+import Checklist from './animations/CheckList/Checklist';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const animationData = [
+  {
+    name: 'Magnetic Circle',
+    component: <MagneticCircle />,
+  },
+  {
+    name: 'Magic List',
+    component: <MagicList />,
+  },
+  {
+    name:'Theme Switch',
+    component:<ThemeSwitch/>
+  },
+  {
+    name: 'PinGesture',
+    component: <PinGesture />,
+  },
+  {
+    name: 'Double Tap',
+    component: <DoubleTap />,
+  },
+  {
+    name:'CheckList',
+    component:<Checklist/>
+  },
+  
+];
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const App = () => {
+  const [selectedAnimation, setSelectedAnimation] = React.useState('');
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
+    <View style={{ flex: 1}}>
+      {selectedAnimation ? (
+        <GestureHandlerRootView
+          style={{ flex: 1,width:Dimensions.get('window').width,   justifyContent: 'center'}}
+        >
           {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+            animationData.find(item => item.name === selectedAnimation)
+              ?.component
+          }
+          <TouchableOpacity style={{
+            position: 'absolute',
+            top: 20,
+            left: 10,
+            zIndex: 100,
+          }}
+            onPress={() => setSelectedAnimation('')}
+          >
+            <Image
+              source={require('./assets/back.png')}
+              style={{ width: 20, height: 20, alignSelf: 'center' }}
+              tintColor={"rgba(256,0,256,0.6)"}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </GestureHandlerRootView>
+      ) : (
+        <>
+        <Text style={{ fontSize: 30, marginVertical: 20,color:'#000',textAlign:'center' }}>Choose Animations</Text>
+          <FlatList
+          style={{
+            flex:1,
+            marginBottom:20
+          }}
+            contentContainerStyle={{flexGrow:1,rowGap:10,width:Dimensions.get('window').width,paddingHorizontal:10}}
+            keyExtractor={(item, index) => item.name + index.toString()}
+            data={animationData}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={{
+                backgroundColor: 'lightblue',
+                borderRadius: 10,
+                justifyContent: 'center',
+                width: '100%',
+                alignItems: 'center',
+              }}  onPress={
+                () => setSelectedAnimation(item.name)
+              }>
+                <Text style={{ fontSize: 20, padding: 10 }}>{item.name}</Text>
+
+              </TouchableOpacity>
+            )}
+          />
+          </>
+      )}
     </View>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
