@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import {  Text, View } from 'react-native'
 import React from 'react'
-import Animated, { SharedValue, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
-import { Gesture, GestureDetector } from 'react-native-gesture-handler'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 const Page = ({
     text,
