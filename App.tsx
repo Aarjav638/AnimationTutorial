@@ -7,6 +7,8 @@ import ThemeSwitch from './animations/ThemeSwitch';
 import PinGesture from './animations/PinGesture';
 import DoubleTap from './animations/DoubleTap';
 import Checklist from './animations/CheckList/Checklist';
+import CustomHeader from './animations/CustomHeader';
+// import Letters from './animations/Letters';
 
 const animationData = [
   {
@@ -33,6 +35,14 @@ const animationData = [
     name:'CheckList',
     component:<Checklist/>
   },
+  // {
+  //   name: 'Letters',
+  //   component: <Letters/>
+  // },
+  {
+    name:'Header',
+    component:<CustomHeader/>
+  }
   
 ];
 
