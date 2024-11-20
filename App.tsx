@@ -2,11 +2,12 @@ import React from 'react';
 import MagneticCircle from './animations/MagneticCircle';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MagicList from './animations/MagicList/MagicList';
-import { Button, Dimensions, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import ThemeSwitch from './animations/ThemeSwitch';
 import PinGesture from './animations/PinGesture';
 import DoubleTap from './animations/DoubleTap';
 import Checklist from './animations/CheckList/Checklist';
+import Letters from './animations/Letters';
 
 const animationData = [
   {
@@ -33,6 +34,10 @@ const animationData = [
     name:'CheckList',
     component:<Checklist/>
   },
+  {
+    name:'Letters',
+    component:<Letters/>
+  }
   
 ];
 
