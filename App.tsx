@@ -13,6 +13,7 @@ import Letters from './animations/Letters';
 
 import * as Sentry from '@sentry/react-native';
 import { Button } from 'react-native';
+import Sentence from './animations/Sentence';
 const animationData = [
   {
     name: 'Magnetic Circle',
@@ -50,6 +51,10 @@ const animationData = [
     name: 'Letters',
     component: <Letters/>
   },
+  {
+    name: 'Sentence',
+    component:<Sentence/>
+  }
   
   
 ];
