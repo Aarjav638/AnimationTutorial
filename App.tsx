@@ -2,15 +2,17 @@ import React from 'react';
 import MagneticCircle from './animations/MagneticCircle';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MagicList from './animations/MagicList/MagicList';
-import {  Dimensions, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import {  Dimensions, FlatList, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import ThemeSwitch from './animations/ThemeSwitch';
 import PinGesture from './animations/PinGesture';
 import DoubleTap from './animations/DoubleTap';
 import Checklist from './animations/CheckList/Checklist';
 import CustomHeader from './animations/CustomHeader';
 import FlatlistAnim from './animations/FlatlistAnim';
-// import Letters from './animations/Letters';
+import Letters from './animations/Letters';
 
+import * as Sentry from '@sentry/react-native';
+import { Button } from 'react-native';
 const animationData = [
   {
     name: 'Magnetic Circle',
@@ -44,19 +46,31 @@ const animationData = [
     name:'Flatlist Animation',
     component:<FlatlistAnim/>
   },
-  // {
-  //   name: 'Letters',
-  //   component: <Letters/>
-  // },
+  {
+    name: 'Letters',
+    component: <Letters/>
+  },
   
   
 ];
+
+
+Sentry.init({
+  dsn: "https://c37efd4dc68824ed1a14dd50c5bbf8c6@o4508255419236352.ingest.us.sentry.io/4508330739302400",
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+  // profilesSampleRate is relative to tracesSampleRate.
+  // Here, we'll capture profiles for 100% of transactions.
+  profilesSampleRate: 1.0,
+});
 
 const App = () => {
   const [selectedAnimation, setSelectedAnimation] = React.useState('');
 
   return (
-    <View style={{ flex: 1}}>
+    <SafeAreaView style={{ flex: 1,backgroundColor:'#f8f8f8'}}>
+      <StatusBar barStyle="dark-content" backgroundColor={'#f8f8f8'}/>
       {selectedAnimation ? (
         <GestureHandlerRootView
           style={{ flex: 1,width:Dimensions.get('window').width,   justifyContent: 'center'}}
@@ -109,8 +123,8 @@ const App = () => {
           />
           </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default App;
+export default Sentry.wrap(App);

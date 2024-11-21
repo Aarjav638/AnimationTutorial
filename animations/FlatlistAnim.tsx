@@ -1,5 +1,5 @@
 import {Image, Text, View} from 'react-native';
-import React from 'react';
+import React, { memo } from 'react';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -26,6 +26,31 @@ export type User = {
   };
 };
 
+
+const Item= memo(({item}: {item: User}) => {
+  return (
+    <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 10,
+              marginHorizontal: 20,
+            }}>
+            <Image
+              source={{uri: item.picture.thumbnail}}
+              style={{width: 40, height: 40, borderRadius: 20}}
+            />
+            <View style={{marginLeft: 10}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold',color:'black'}}>
+                {item.name.first} {item.name.last}
+              </Text>
+              <Text style={{fontSize: 12, color: 'gray'}}>{item.email}</Text>
+            </View>
+          </View>
+  )
+}
+)
+
 const FlatlistAnim = () => {
   const [data, setData] = React.useState<User[]>([]);
 
@@ -48,46 +73,44 @@ const FlatlistAnim = () => {
   });
 
   const rFlatListStyle = useAnimatedStyle(() => {
-    const marginTopValue = interpolate(
+    const TopValue = interpolate(
       scrollY.value,
-      [0, 150],
-      [10, -100],
+      [-1,0, 200],
+      [200,200, 100],
       Extrapolation.CLAMP,
     );
-    return {
-      marginTop: marginTopValue,
-    };
+      return {
+        top: Math.max(TopValue, 100), 
+      };
+    
   });
+
+
+  const renderItem = ({item}: {item: User}) => {
+    return <Item item={item} />
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Header translateY={scrollY} />
       <Stories data={data} scrollY={scrollY} />
       <Animated.FlatList
+      initialNumToRender={10}
+      maxToRenderPerBatch={10}
+      windowSize={5}
+      removeClippedSubviews={true}
         onScroll={handleScrollEvent}
         data={data}
-        style={[rFlatListStyle]}
+        scrollEventThrottle={16}
+        style={[{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+
+        },rFlatListStyle]}
         keyExtractor={item => item.email}
-        renderItem={({item}) => (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 10,
-              marginHorizontal: 20,
-            }}>
-            <Image
-              source={{uri: item.picture.thumbnail}}
-              style={{width: 40, height: 40, borderRadius: 20}}
-            />
-            <View style={{marginLeft: 10}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                {item.name.first} {item.name.last}
-              </Text>
-              <Text style={{fontSize: 12, color: 'gray'}}>{item.email}</Text>
-            </View>
-          </View>
-        )}
+        renderItem={renderItem}
       />
     </View>
   );
