@@ -4,10 +4,62 @@ import Animated, {
   useAnimatedStyle,
   interpolate,
   Extrapolation,
+  StyleProps,
 } from 'react-native-reanimated';
 import {User} from './FlatlistAnim';
+import { memo } from 'react';
 
-const WIDTH  = Dimensions.get('window').width;
+
+const WIDTH = Dimensions.get('window').width;
+
+const Item = memo(({ item, rstyle }: { item: User; rstyle: StyleProps }) => {return(
+  <View
+        style={[
+          {
+            alignItems: 'center',
+            rowGap: 10,
+          },
+        ]}>
+        <View
+          style={{
+            backgroundColor: 'black',
+            borderRadius: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 2,
+            height: 80,
+            width: 80,
+            borderColor: 'yellow',
+            borderWidth: 2,
+          }}>
+          <Image
+            source={{uri: item.picture.medium}}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: 40,
+            }}
+            resizeMethod="scale"
+            resizeMode="contain"
+          />
+        </View>
+        <Animated.Text
+          style={[
+            {
+              fontSize: 10,
+              fontWeight: '600',
+              width: 80,
+              color: 'black',
+              textAlign: 'center',
+            },
+            rstyle,
+          ]}>
+          {item.name.first} {item.name.last}
+        </Animated.Text>
+      </View>
+)
+});
+
 
 const Stories = ({
   data,
@@ -17,48 +69,53 @@ const Stories = ({
   scrollY: SharedValue<number>;
 }) => {
 
+
+
+  const renderItem = ({item}: {item: User}) => {
+    return <Item item={item} rstyle={rstyle}  />
+  };
+
   const ruserFlatListStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(
+    const scaleValue = 
+      interpolate(scrollY.value, [-1, 0, 100], [1, 1, 0.3], Extrapolation.CLAMP)
+    const widthValue = interpolate(
       scrollY.value,
-      [0, 100],
-      [1, 0.3],
+      [-1,0,50, 100],
+      [WIDTH,WIDTH, 270,270],
       Extrapolation.CLAMP,
     );
-    const widthValue = interpolate(
-        scrollY.value,
-        [0, 100],
-        [WIDTH, 260],
-        'clamp'
-        );
 
-    const translateYValue = interpolate(
+    const roundedValue = Math.round(scaleValue * 100) / 100;
+    
+    const topValue = interpolate(
       scrollY.value,
-      [0, 100],
-      [10, -70],
+      [-1,0, 100],
+      [90,90, 10],
       Extrapolation.CLAMP,
     );
     const translateXValue = interpolate(
       scrollY.value,
-      [0, 100],
-      [0, 0],
+      [0,60 ,100],
+      [0, 0,-30],
       Extrapolation.CLAMP,
     );
 
     return {
         
-      width: widthValue,
+     top:Math.max(topValue,0),
       transform: [
-        {translateY: translateYValue},
+        
+        {scale: roundedValue},
         {translateX: translateXValue},
-        {scale: scaleValue},
       ],
+      width: Math.max(widthValue, 270),
     };
   });
   const rstyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
-      [0, 100],
-      [1, 0],
+      [-1,0, 100],
+      [1,1, 0],
       Extrapolation.CLAMP,
     );
     return {
@@ -68,62 +125,19 @@ const Stories = ({
 
   return (
     <Animated.FlatList
-      style={[
-        {
-          height: 170,
-        },
+      style={[{
+        position: 'absolute',
+        left:0,
+        right:0,
+      },
         ruserFlatListStyle,
       ]}
+      scrollEventThrottle={16}
       data={data}
       contentContainerStyle={{paddingHorizontal: 20}}
       horizontal
       keyExtractor={item => item.email}
-      renderItem={({item}) => (
-        <View
-          style={[
-            {
-              alignItems: 'center',
-              rowGap: 10,
-            },
-          ]}>
-          <View
-            style={{
-              backgroundColor: 'black',
-              borderRadius: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 2,
-              height: 80,
-              width: 80,
-              borderColor: 'yellow',
-              borderWidth: 2,
-            }}>
-            <Image
-              source={{uri: item.picture.medium}}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 40,
-              }}
-              resizeMethod="scale"
-              resizeMode="contain"
-            />
-          </View>
-          <Animated.Text
-            style={[
-              {
-                fontSize: 10,
-                fontWeight: '600',
-                width: 80,
-                color: 'black',
-                textAlign: 'center',
-              },
-              rstyle,
-            ]}>
-            {item.name.first} {item.name.last}
-          </Animated.Text>
-        </View>
-      )}
+      renderItem={renderItem}
     />
   );
 };

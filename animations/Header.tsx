@@ -1,5 +1,5 @@
 import {icons} from 'lucide-react-native';
-import React from 'react';
+import React, { memo } from 'react';
 import {View} from 'react-native';
 import Animated, {
   Extrapolation,
@@ -17,12 +17,12 @@ const HomeIconComponent = () => {
   return <Component size={20} color={'black'} />;
 };
 
-const Header = ({translateY}: {translateY: SharedValue<number>}) => {
+const Header =  memo(({translateY}: {translateY: SharedValue<number>}) => {
   const rstyle = useAnimatedStyle(() => {
     const translateX = interpolate(
       translateY.value,
-      [0, 100],
-      [0, 20],
+      [-1,0, 100],
+      [0,0, 20],
       Extrapolation.CLAMP,
     );
     return {
@@ -54,6 +54,5 @@ const Header = ({translateY}: {translateY: SharedValue<number>}) => {
       <IconComponent />
     </View>
   );
-};
-
+})
 export default Header;
