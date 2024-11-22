@@ -10,7 +10,6 @@ import Checklist from './animations/CheckList/Checklist';
 import CustomHeader from './animations/CustomHeader';
 import FlatlistAnim from './animations/FlatlistAnim';
 import Letters from './animations/Letters';
-
 import * as Sentry from '@sentry/react-native';
 import Sentence from './animations/Sentence';
 import Favourites from './animations/Favourites';
