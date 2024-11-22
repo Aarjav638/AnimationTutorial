@@ -18,9 +18,13 @@ const Page = ({
 
     const opacity = useSharedValue(0);
 
+    const textSpring = useSharedValue(0);
+
     const [checkedList, setCheckedList] = React.useState<{index:number}[]>(
         []
     );
+
+    const [COLOR, setCOLOR] = React.useState('purple');
 
     const [textWidth, setTextWidth] = React.useState<number>(0);
     const onTextLayout = (e: any) => {
@@ -43,10 +47,23 @@ const Page = ({
               width.value = withSpring(10);
               translateX.value = withSpring(0);
               opacity.value = withSpring(0);
+              setCOLOR('purple');
             } else {
               setCheckedList((prev) => [...prev, { index }]);
               width.value = withSpring(textWidth + 10);
-              translateX.value = withSpring(35);
+              textSpring.value = withSpring(10);
+              translateX.value = withSpring(40, {
+                duration: 500,
+              }, (isFinished) => {
+                if (isFinished) {
+                    textSpring.value = withSpring(0,{
+                        duration:600
+                    });
+                }
+              });
+        
+              setCOLOR('grey');
+              
                 opacity.value = withSpring(1);
                 scale.value = withSpring(1,undefined,(isFinished) => {
                     if(isFinished){
@@ -55,8 +72,16 @@ const Page = ({
                 }
                 );
 
+
           };
         }
+
+        const textSpringStyle = useAnimatedStyle(() => {
+            return {
+                transform:[{translateX:textSpring.value}],
+            }
+        }
+        )
 
         const tickStyle= useAnimatedStyle(() => {
             return {
@@ -84,7 +109,7 @@ const Page = ({
             borderRadius:20,
             borderWidth:4,
             left:-5,
-            borderColor:'purple',
+            borderColor:COLOR,
             borderStyle:'dotted',
             justifyContent:'center',
             alignItems:'center',
@@ -101,24 +126,24 @@ const Page = ({
         
             <Animated.View style={[{
                 paddingVertical:2,
-                backgroundColor:'purple',
-                borderColor:'purple',
+                backgroundColor:COLOR,
+                borderColor:COLOR,
                 position:'absolute',
                 top:0.1,
                 paddingHorizontal:10,
                 
             },style]} />
                    
-      <Text onLayout={onTextLayout}
+      <Animated.Text onLayout={onTextLayout}
       onPress={handleOnpress}
-       style={{
+       style={[{
         position:'absolute',
         left:40,
             fontSize:20,
-            color:'purple',
+            color:COLOR,
             textTransform:'capitalize',
             fontWeight:'bold',
-      }}>{text}</Text>
+      },textSpringStyle]}>{text}</Animated.Text>
     </View>
   )
 
