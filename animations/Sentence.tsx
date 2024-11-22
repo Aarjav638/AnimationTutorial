@@ -31,7 +31,7 @@ const MAX_WORDS = Math.max(
 
 const Sentence: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [words, setWords] = useState<string[]>(SENTENCES[0].split(' '));
+  const [words, setWords] = useState<string[]>(SENTENCES[currentIndex].split(' '));
 
   const animations = Array(MAX_WORDS)
     .fill(null)

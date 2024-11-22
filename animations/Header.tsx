@@ -12,10 +12,7 @@ const IconComponent = () => {
   return <Component size={20} color={'black'} />;
 };
 
-const HomeIconComponent = () => {
-  const Component = icons['House'];
-  return <Component size={20} color={'black'} />;
-};
+
 
 const Header =  memo(({translateY}: {translateY: SharedValue<number>}) => {
   const rstyle = useAnimatedStyle(() => {
@@ -39,11 +36,13 @@ const Header =  memo(({translateY}: {translateY: SharedValue<number>}) => {
         paddingHorizontal: 20,
         flexDirection: 'row',
       }}>
-      <HomeIconComponent />
+      
       <Animated.Text
         style={[
           {
             fontSize: 20,
+            width: '95%',
+            textAlign:'center',
             fontWeight: 'bold',
             color: 'black',
           },

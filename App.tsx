@@ -13,6 +13,8 @@ import Letters from './animations/Letters';
 import * as Sentry from '@sentry/react-native';
 import Sentence from './animations/Sentence';
 import Favourites from './animations/Favourites';
+import CardStack from './animations/CardStack';
+import { icons } from 'lucide-react-native';
 const animationData = [
   {
     name: 'Magnetic Circle',
@@ -68,12 +70,20 @@ const animationData = [
     name: 'Favourites',
     component: <Favourites />,
     backgroundColor: '#E2E2E8',
+  },
+  {
+    name:'Card Stack',
+    component:<CardStack />,
+    backgroundColor:'#f7aae3'
   }
 ];
 
 
 
-
+const HomeIconComponent = () => {
+  const Component = icons['House'];
+  return <Component size={20} color={'rgba(256,0,256,0.6)'} />;
+};
 
 Sentry.init({
   dsn: "https://c37efd4dc68824ed1a14dd50c5bbf8c6@o4508255419236352.ingest.us.sentry.io/4508330739302400",
@@ -90,10 +100,10 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1,backgroundColor:'#f8f8f8'}}>
-      <StatusBar barStyle="dark-content" backgroundColor={'#f8f8f8'}/>
+      <StatusBar barStyle="dark-content" backgroundColor={'transparent'} translucent={true} />
       {selectedAnimation ? (
         <GestureHandlerRootView
-          style={{ flex: 1,width:Dimensions.get('window').width,   justifyContent: 'center'}}
+          style={{ flex: 1,width:Dimensions.get('window').width,justifyContent: 'center'}}
         >
           {
             animationData.find(item => item.name === selectedAnimation)
@@ -101,29 +111,24 @@ const App = () => {
           }
           <TouchableOpacity style={{
             position: 'absolute',
-            top: 20,
-            left: 10,
+            top: (StatusBar.currentHeight || 0) + 20,
+            left: 20,
             zIndex: 100,
           }}
             onPress={() => setSelectedAnimation('')}
           >
-            <Image
-              source={require('./assets/back.png')}
-              style={{ width: 20, height: 20, alignSelf: 'center' }}
-              tintColor={"rgba(256,0,256,0.6)"}
-              resizeMode="contain"
-            />
+            <HomeIconComponent />
           </TouchableOpacity>
         </GestureHandlerRootView>
       ) : (
         <>
-        <Text style={{ fontSize: 30, marginVertical: 20,color:'#000',textAlign:'center' }}>Choose Animations</Text>
+        <Text style={{ fontSize: 30, marginTop: StatusBar.currentHeight,marginBottom:20,color:'#000',textAlign:'center' }}>Choose Animations</Text>
           <FlatList
           style={{
             flex:1,
             marginBottom:20
           }}
-            contentContainerStyle={{flexGrow:1,rowGap:14,width:Dimensions.get('window').width,paddingHorizontal:10}}
+            contentContainerStyle={{flexGrow:1,rowGap:14,width:Dimensions.get('window').width,paddingHorizontal:10,paddingVertical:18}}
             keyExtractor={(item, index) => item.name + index.toString()}
             data={animationData}
             renderItem={({ item }) => (

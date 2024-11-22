@@ -1,6 +1,7 @@
 import {
   Dimensions,
   ImageBackground,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -53,6 +54,7 @@ const Favourites = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent={true} />
       <Header scrollY={scrollY} length={data.length} />
       <Animated.ScrollView
         style={{
@@ -118,7 +120,7 @@ const Header = React.memo(({scrollY, length}: HeaderProps) => {
     const headerHeight = interpolate(
       scrollY.value,
       [0, 300],
-      [Height / 2, Height / 7],
+      [Height / 2, Height / 5],
       Extrapolation.CLAMP,
     );
     return {
@@ -155,7 +157,7 @@ const Header = React.memo(({scrollY, length}: HeaderProps) => {
         {
           backgroundColor: '#0c1d34',
           paddingHorizontal: 20,
-          paddingTop: 50,
+          paddingTop: 80,
           paddingBottom:24
         },
         headerStyles,
