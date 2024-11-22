@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StatusBar, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
@@ -102,11 +102,14 @@ const PinGesture = () => {
 
   return (
     <GestureDetector gesture={combinedGesture}>
+      <View>
+      <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent={true} />
       <Animated.Image
         source={require('../assets/background.jpg')}
         style={[{height, width}, rImageStyle]}
         resizeMode="cover"
       />
+      </View>
     </GestureDetector>
   );
 };

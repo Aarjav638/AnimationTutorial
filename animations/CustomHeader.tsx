@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import TabItem from './TabItems'
 import Animated, {  FadeInRight,  FadeOutRight } from 'react-native-reanimated'
@@ -74,5 +74,6 @@ export default CustomHeader
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        marginTop:StatusBar.currentHeight || 0
     }
 })
