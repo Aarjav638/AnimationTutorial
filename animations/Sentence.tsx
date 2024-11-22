@@ -12,18 +12,19 @@ import Animated, {
 const {width, height} = Dimensions.get('window');
 
 const SENTENCES = [
-  'React Native makes mobile app development easy and fun.',
-  'Animations bring your app to life.',
-  'Let’s code and create magic!',
-  'Smooth transitions make animations more polished.',
-  'React Native makes mobile app development easy and fun.',
-  'Animations bring your app to life.',
-  'Let’s code and create magic!',
-  'Smooth transitions make animations more polished.',
+  'You can\'t hack the driver without copying the primary ascii microchip!',
+  'try to hack the pci trasnsmitter, maybe it will calculate the optical firewall!',
+  'if we calculate the monitor, we can get to the xml capacitor through the solid state vga monitor!',
+  'try to calculate the udp monitor, maybe it will navigate the cross-platform protocol!',
+  'if we quantify the firewall, we can get to the css program through the bluetooth ascii transmitter!',
+  'try to reboot the pci pixel, maybe it will program the auxiliary application!',
+  'You can\'t index the sensor without synthesizeing the optical smtp array!',
+  'try to synthesize the ascii transmitter, maybe it will calculate the back-end card!',
+  'If we quantify the circuit,  we can get to the hdd matrix through the mobile gb array!'
 ];
 
-const BACKGROUND_COLORS = ['#F5B7B1', '#D5DBDB', '#F0E68C', '#AED6F1'];
-const TEXT_COLORS = ['#1C2833', '#E74C3C', '#85C1AE', '#154360'];
+const BACKGROUND_COLORS = ['#8c2be5', '#021e41', '#02a7ff', '#411f00','#ffa600','#103c68','#fcf2cb','#ff7064','#2d2d44'];
+const TEXT_COLORS = ['#310047', '#00a7ff', '#051e3e', '#ffa80a','#412204','#fff0cf','#103d6a','#2d2b4a','#ff7063'];
 const MAX_WORDS = Math.max(
   ...SENTENCES.map(sentence => sentence.split(' ').length),
 );
@@ -58,10 +59,12 @@ const Sentence: React.FC = () => {
       );
     });
 
-    opacityAnim.value = withDelay(3000, withTiming(0, {duration: 1500}));
+    const totalduration  = words.length * 500 + 1500;
+
+    opacityAnim.value = withDelay(totalduration, withTiming(0, {duration: 500}));
 
     backgroundColorAnim.value = withDelay(
-      4000,
+      totalduration + 500,
       withTiming(currentIndex + 1, {duration: 1500}, isFinished => {
         if (isFinished) {
           runOnJS(goToNextSentence)();
@@ -121,13 +124,13 @@ const Sentence: React.FC = () => {
                   key={`word-${index}`}
                   style={[
                     styles.word,
+                    {
+                    marginRight:index !== words.length  ?6: 0,
+                    },
                     animatedStyle,
                     {color: TEXT_COLORS[currentIndex]},
                   ]}>
                   {words[index] || ''}
-                  {
-                    index !== words.length  ? " ": ''
-                  }
                 </Animated.Text>
               );
             })}
@@ -148,12 +151,14 @@ const styles = StyleSheet.create({
   sentenceContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 10,
+    padding: 20,
   },
   word: {
-    fontSize: 50,
-    fontWeight: '800',
+    fontSize: Dimensions.get('window').width * 0.13,
+    fontWeight: '900',
     textTransform:'uppercase',
+    lineHeight:60,
+    letterSpacing: -2,
   },
 });
 
