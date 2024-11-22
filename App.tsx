@@ -12,52 +12,68 @@ import FlatlistAnim from './animations/FlatlistAnim';
 import Letters from './animations/Letters';
 
 import * as Sentry from '@sentry/react-native';
-import { Button } from 'react-native';
 import Sentence from './animations/Sentence';
+import Favourites from './animations/Favourites';
 const animationData = [
   {
     name: 'Magnetic Circle',
     component: <MagneticCircle />,
+    backgroundColor: '#A0B8CF',
   },
   {
     name: 'Magic List',
     component: <MagicList />,
+    backgroundColor: '#E4E09C',
   },
   {
-    name:'Theme Switch',
-    component:<ThemeSwitch/>
+    name: 'Theme Switch',
+    component: <ThemeSwitch />,
+    backgroundColor: '#D0D0F0',
   },
   {
     name: 'PinGesture',
     component: <PinGesture />,
+    backgroundColor: '#F0E6AA',
   },
   {
     name: 'Double Tap',
     component: <DoubleTap />,
+    backgroundColor: '#D5EFEA',
   },
   {
-    name:'CheckList',
-    component:<Checklist/>
+    name: 'CheckList',
+    component: <Checklist />,
+    backgroundColor: '#D0EFD0',
   },
   {
-    name:'Header',
-    component:<CustomHeader/>
+    name: 'Header',
+    component: <CustomHeader />,
+    backgroundColor: '#EFE4C0',
   },
   {
-    name:'Flatlist Animation',
-    component:<FlatlistAnim/>
+    name: 'Flatlist Animation',
+    component: <FlatlistAnim />,
+    backgroundColor: '#E2E2B5', 
   },
   {
     name: 'Letters',
-    component: <Letters/>
+    component: <Letters />,
+    backgroundColor: '#E8D7AD', 
   },
   {
     name: 'Sentence',
-    component:<Sentence/>
+    component: <Sentence />,
+    backgroundColor: '#E8C3C8',
+  },
+  {
+    name: 'Favourites',
+    component: <Favourites />,
+    backgroundColor: '#E2E2E8',
   }
-  
-  
 ];
+
+
+
 
 
 Sentry.init({
@@ -108,16 +124,23 @@ const App = () => {
             flex:1,
             marginBottom:20
           }}
-            contentContainerStyle={{flexGrow:1,rowGap:10,width:Dimensions.get('window').width,paddingHorizontal:10}}
+            contentContainerStyle={{flexGrow:1,rowGap:14,width:Dimensions.get('window').width,paddingHorizontal:10}}
             keyExtractor={(item, index) => item.name + index.toString()}
             data={animationData}
             renderItem={({ item }) => (
               <TouchableOpacity style={{
-                backgroundColor: 'lightblue',
+                backgroundColor: item.backgroundColor,
                 borderRadius: 10,
                 justifyContent: 'center',
-                width: '100%',
+                width: '95%',
                 alignItems: 'center',
+                elevation:10,
+                alignSelf:"center",
+                shadowRadius:20,
+                shadowOffset:{
+                  height:40,
+                  width:20
+                }
               }}  onPress={
                 () => setSelectedAnimation(item.name)
               }>
