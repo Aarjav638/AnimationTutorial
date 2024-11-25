@@ -180,9 +180,8 @@ const FloatingAction = () => {
     setModalOpened(!modalOpened);
     blurOpacity.value = withTiming(opened.value === 0 ? 1 : 0, {duration: 500});
     opened.value = withTiming(opened.value === 0 ? 1 : 0, {duration: 500});
-    if (modalOpened && Keyboard.isVisible() ){
+    if (modalOpened && Keyboard.isVisible()) {
       Keyboard.dismiss();
-       
     }
   };
 
@@ -263,7 +262,7 @@ const FloatingAction = () => {
     opened.value = withDelay(200, withTiming(2, {duration: 500}));
   };
   const handleTranslateDown = () => {
-        opened.value = withTiming(1, {duration: 500});
+    opened.value = withTiming(1, {duration: 500});
   };
 
   const rFloatTextStyle = useAnimatedStyle(() => {
@@ -327,7 +326,9 @@ const FloatingAction = () => {
             }}>
             <Text
               style={{color: '#23879d', cursor: 'pointer'}}
-              onPress={() => Linking.openURL('https://www.animatereactnative.com/')}>
+              onPress={() =>
+                Linking.openURL('https://www.animatereactnative.com/')
+              }>
               AnimateReactNative.com
             </Text>{' '}
             is now on sale for{' '}
