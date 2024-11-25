@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/blur": "^4.4.1",
     "@sentry/react-native": "^6.2.0",
     "lucide-react-native": "^0.460.0",
     "moti": "^0.29.0",

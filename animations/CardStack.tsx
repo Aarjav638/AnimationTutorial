@@ -18,7 +18,6 @@ import data, {locationImage} from '../constants/data';
 import {icons} from 'lucide-react-native';
 import Animated, {
   Extrapolation,
-  FadeInLeft,
   FadeInRight,
   FadeOutLeft,
   FadeOutRight,
@@ -27,7 +26,6 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 import React, {useState} from 'react';
@@ -45,7 +43,7 @@ const IconComponent = ({
   return <Icon style={iconStyle} size={size} />;
 };
 
-const duration = 600;
+const duration = 1000;
 const _size = width * 0.9;
 const layout = {
   borderRadius: 16,
@@ -75,6 +73,7 @@ function Card({
   info: (typeof data)[0];
   activeIndex: SharedValue<number>;
 }) {
+
   const rstyles = useAnimatedStyle(() => {
     return {
       position: 'absolute',
@@ -82,7 +81,7 @@ function Card({
       opacity: interpolate(
         activeIndex.value,
         [index - 1, index, index + 1],
-        [1 - 1 / maxVisibleItems, 1, 1],
+        [1-1/maxVisibleItems, 1, 1],
       ),
       shadowOpacity: interpolate(
         activeIndex.value,
@@ -232,6 +231,8 @@ export default function App() {
   const flingUp = Gesture.Fling()
     .direction(Directions.UP)
     .onStart(() => {
+      
+  console.log('Card rendered', activeIndex.value);
       if (activeIndex.value === 0) {
         return;
       }
@@ -242,6 +243,8 @@ export default function App() {
   const flingDown = Gesture.Fling()
     .direction(Directions.DOWN)
     .onStart(() => {
+      
+  console.log('Card rendered', activeIndex.value);
       if (activeIndex.value === data.length - 1) {
         return;
       }
