@@ -15,6 +15,7 @@ import Sentence from './animations/Sentence';
 import Favourites from './animations/Favourites';
 import CardStack from './animations/CardStack';
 import { icons } from 'lucide-react-native';
+import FloatingAction from './animations/FloatingAction';
 const animationData = [
   {
     name: 'Magnetic Circle',
@@ -75,6 +76,11 @@ const animationData = [
     name:'Card Stack',
     component:<CardStack />,
     backgroundColor:'#f7aae3'
+  },
+  {
+    name:'Floating Card',
+    component:<FloatingAction />,
+    backgroundColor:'#aae8f7'
   }
 ];
 
