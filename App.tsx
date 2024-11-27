@@ -16,6 +16,8 @@ import Favourites from './animations/Favourites';
 import CardStack from './animations/CardStack';
 import { icons } from 'lucide-react-native';
 import FloatingAction from './animations/FloatingAction';
+import CaraouselCardStack from './animations/CaraouselCardStack';
+import RandomCircles from './animations/RandomCircles';
 const animationData = [
   {
     name: 'Magnetic Circle',
@@ -81,6 +83,16 @@ const animationData = [
     name:'Floating Card',
     component:<FloatingAction />,
     backgroundColor:'#aae8f7'
+  },
+  {
+    name: 'Carousel',
+    component: <CaraouselCardStack />,
+    backgroundColor:'#b8f7aa'
+  },
+  {
+    name: 'Random Circles',
+    component: <RandomCircles />,
+    backgroundColor: '#A0B8CF',
   }
 ];
 
